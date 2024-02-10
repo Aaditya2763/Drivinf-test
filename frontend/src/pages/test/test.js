@@ -6,6 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Box, Container, Grid, Paper, Stack } from '@mui/material';
 import TestNavbar from '../../components/Navbar/testNavbar';
+import { Link } from 'react-router-dom';
 
 const questions=[
   {
@@ -110,7 +111,6 @@ const questions=[
   }
 ]
 
-
 const TestPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState('');
@@ -133,7 +133,6 @@ const TestPage = () => {
     const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
     return `${formattedMinutes} min : ${formattedSeconds} sec`;
   };
-  
 
   const handleOptionSelect = (event) => {
     setSelectedOption(event.target.value);
@@ -142,7 +141,7 @@ const TestPage = () => {
 
   const handleNextQuestion = () => {
     const currentQuestion = questions[currentQuestionIndex];
-    if (selectedOption === currentQuestion.correctAnswer) {
+    if (selectedOption === currentQuestion.correct_answer) {
       setScore(score + 1);
     }
     setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -163,63 +162,77 @@ const TestPage = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
 
+  const isTestOver = timeRemaining <= 0 || currentQuestionIndex === questions.length - 1;
+  const passStatus = score >= questions.length / 2 ? 'Pass' : 'Fail';
+
   return (
     <Box>
       <TestNavbar/>
-      <Container maxWidth="md" style={{ borderRadius:"10px" }}>
+      <Container maxWidth="md" style={{ borderRadius: "10px" }}>
         <Grid>
-        <Stack direction="row" justifyContent="space-around" alignItems="center">
-          <Typography variant="h5" >Question {currentQuestionIndex + 1}</Typography>
-          <Typography variant="body2">Time Remaining: {formatTime(Math.max(timeRemaining, 0))}</Typography>
-        </Stack>
-        <Paper elevation={3} style={{ padding: '20px',marginTop:20 }}>
-          {currentQuestion && (
-            <div style={{ marginTop: 20, textAlign:"center" }}>
-              <Typography variant="body1">{currentQuestion.question}</Typography>
-            </div>
-          )}
-          <RadioGroup value={selectedOption} onChange={handleOptionSelect} style={{ marginBottom: 16 }}>
-            {currentQuestion && currentQuestion.options.map((option, index) => (
-              <FormControlLabel
-                key={index}
-                value={option}
-                control={<Radio />}
-                label={option}
-              />
-            ))}
-          </RadioGroup>
-          <Stack direction="row" justifyContent="space-between">
-          <div style={{ marginBottom: 16 }}>
-            <Button
-              variant="contained"
-              onClick={handlePreviousQuestion}
-              disabled={currentQuestionIndex === 0}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="contained"
-              onClick={handleNextQuestion}
-              disabled={!attempted || currentQuestionIndex === questions.length - 1}
-              style={{ marginLeft: 8 }}
-            >
-              Next
-            </Button>
-          </div>
-          <div>
-          {currentQuestionIndex === questions.length - 1 && (
-            <Button
-              variant="contained"
-              onClick={handleTestEnd}
-              disabled={!attempted}
-              style={{ marginLeft: 8 }}
-            >
-              Submit
-            </Button>
-          )}
-          </div>
+          <Stack direction="row" justifyContent="space-around" alignItems="center">
+          {isTestOver?"":  <Typography variant="h5" >Question {currentQuestionIndex + 1}</Typography>}
+            {isTestOver?"":<Typography variant="body2">Time Remaining: {formatTime(Math.max(timeRemaining, 0))}</Typography>}
           </Stack>
-        </Paper>
+          <Paper elevation={3} style={{ padding: '20px', marginTop: 20 }}>
+            {isTestOver ? (
+              <Stack style={{ alignItems:"center" }}>
+                <Typography variant="h5" style={{ textAlign: "center" }}>
+                  Test Over. Your final score is {score}. You are {passStatus}
+                </Typography>
+                <Link to="/dashboard"><Button style={{ marginTop: 20, border: "1px solid" }}>Back to dashboard</Button></Link>
+              </Stack>
+            ) : (
+              <>
+                {currentQuestion && (
+                  <div style={{ marginTop: 20, textAlign: "center" }}>
+                    <Typography variant="body1">{currentQuestion.question}</Typography>
+                  </div>
+                )}
+                <RadioGroup value={selectedOption} onChange={handleOptionSelect} style={{ marginBottom: 16 }}>
+                  {currentQuestion && currentQuestion.options.map((option, index) => (
+                    <FormControlLabel
+                      key={index}
+                      value={option}
+                      control={<Radio />}
+                      label={option}
+                    />
+                  ))}
+                </RadioGroup>
+                <Stack direction="row" justifyContent="space-between">
+                  <div style={{ marginBottom: 16 }}>
+                    <Button
+                      variant="contained"
+                      onClick={handlePreviousQuestion}
+                      disabled={currentQuestionIndex === 0}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleNextQuestion}
+                      disabled={!attempted || currentQuestionIndex === questions.length - 1}
+                      style={{ marginLeft: 8 }}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                  <div>
+                    {currentQuestionIndex === questions.length - 1 && (
+                      <Button
+                        variant="contained"
+                        onClick={handleTestEnd}
+                        disabled={!attempted}
+                        style={{ marginLeft: 8 }}
+                      >
+                        Submit
+                      </Button>
+                    )}
+                  </div>
+                </Stack>
+              </>
+            )}
+          </Paper>
         </Grid>
       </Container>
     </Box>
