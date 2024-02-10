@@ -140,7 +140,7 @@ function NavbarBox() {
 
           <Box sx={{ flexGrow: 0 }}>
             {(loginuser || user) ? (
-              <Stack spacing={{ xs: 2 }} direction="row" color={'white'}>
+              <Stack spacing={{ xs: 2 }} direction={{ xs: 'column', md: 'row' }} color={'white'} sx={{display:{xs:'flex',alignItems:"center", padding: 10}}}>
                 <ReactLink to="/dashboard">
                   <Button style={{ border: '1px solid white', color: 'white' }}>Dashboard</Button>
                 </ReactLink>
