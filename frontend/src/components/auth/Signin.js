@@ -110,7 +110,7 @@ const Signup = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign In
+             {loading?"Loading": "Sign In"}
             </Typography>
             {Error && <Stack sx={{ width: '100%' }} spacing={2}>
               <Alert severity="error" onClose={() => { setError(false) }}>

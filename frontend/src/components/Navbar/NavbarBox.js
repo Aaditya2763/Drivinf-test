@@ -197,9 +197,10 @@ function NavbarBox() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <ReactLink to={`${setting.toLowerCase(setting)==="logout"}`?"":`/${setting.toLowerCase(setting)}`} style={{ textDecoration: 'none', color: '#1976d2' }}>
+               <ReactLink to={setting.toLowerCase() === "logout" ? "/logout" : `/${setting.toLowerCase()}`} style={{ textDecoration: 'none', color: '#1976d2' }}>
+
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={`${setting.toLowerCase(setting)==="logout"}`?logoutHandler:""}>{setting}</Typography>
+                    <Typography textAlign="center" onClick={setting.toLowerCase()==="logout"?logoutHandler:""}>{setting}</Typography>
                   </MenuItem>
                 </ReactLink>
               ))}
