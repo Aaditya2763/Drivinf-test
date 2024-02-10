@@ -84,7 +84,7 @@ export default function Registartion() {
                 confirmation, and will send you an update when your order has
                 shipped.
               </Typography>
-              <Link href="/" variant="body2" style={{display:"flex",alignSelf:"center",textDecoration:"none"}} >
+              <Link href="/dashboard" variant="body2" style={{display:"flex",alignSelf:"center",textDecoration:"none"}} >
                    <Button style={{margin:"10px auto",border:"1px solid grey "}}> {"Back to Dashboard"}</Button>
                   </Link>
             </React.Fragment>

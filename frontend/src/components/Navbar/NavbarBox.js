@@ -144,6 +144,9 @@ function NavbarBox() {
                 <ReactLink to="/dashboard">
                   <Button style={{ border: '1px solid white', color: 'white' }}>Dashboard</Button>
                 </ReactLink>
+                <ReactLink to="/register">
+                  <Button style={{ border: '1px solid white', color: 'white' }}>Register Test</Button>
+                </ReactLink>
                 <Tooltip title="Theme">
                   <IconButton sx={{ p: 0 }} onClick={() => setToggleTheme(!toggleTheme)}>
                     {toggleTheme ? (
