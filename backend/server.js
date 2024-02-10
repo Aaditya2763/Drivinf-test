@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== "production") {
   const crypto = require('crypto');
   const dbConnect = require("./config/dbConfig");
   const authRoutes = require("./routes/authroutes/authRoutes");
+const userRoutes = require("./routes/userRoutes/userRoutes");
   
   // Database connection
   dbConnect();
@@ -41,6 +42,7 @@ if (process.env.NODE_ENV !== "production") {
   
   // Routes
   app.use(authRoutes);
+  app.use(userRoutes);
   
   // Default route
   app.get("/", (req, res) => {

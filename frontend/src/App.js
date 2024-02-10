@@ -39,7 +39,7 @@ function App() {
             <Route exact path="/dashboard" element={<Dashboard loginuser={user}/>} />
             <Route exact path="/test" element={<TestPage/>} />
             <Route exact path="/learn" element={<Home loginuser={user}/>} />
-
+            <Route exact path="/logout" element={<Home loginuser={user}/>} />
             <Route exact path="/profile" element={<Profile loginuser={user} />} />
             <Route exact path="/change-password" element={<ForgetPassword loginuser={user} />} />
             <Route exact path="/account" element={<ForgetPassword loginuser={user} />} />

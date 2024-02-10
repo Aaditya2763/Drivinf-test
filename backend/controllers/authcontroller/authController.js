@@ -1,5 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
-const User = require("../../modal/user/user");
+const User = require("../../modal/user/auth");
 const generateToken = require("../../config/tokenConfig");
 
 //register controller
@@ -39,8 +39,18 @@ const userLoginController = expressAsyncHandler(async (req, res) => {
       userName: userFound?.userName,
       lastName: userFound?.lastName,
       email: userFound?.email,
+      userName: userFound.firstName,
+      firstName: userFound.firstName,
+      lastName: userFound.lastName,
+      address1: userFound.address1,
+      address2: userFound.address2,
+      city: userFound.city,
+      state: userFound.state,
+      zip: userFound.zip,
+      country: userFound.country,
       profilePhoto: userFound?.profilePhoto,
       isAdmin: userFound?.isAdmin,
+      isRegisteredDrivingTest:userFound.isRegisteredDrivingTest,
       token: generateToken(userFound?._id),
     });
   } else {

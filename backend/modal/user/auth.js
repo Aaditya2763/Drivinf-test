@@ -5,6 +5,26 @@ const userSchema = new mongoose.Schema({
   userName: {
     type: String,
   },
+  firstName: {
+    type: String,
+    
+  },
+  lastName: {
+    type: String,
+    
+  },
+  address1: String,
+  address2: String,
+  city: {
+    type: String,
+    
+  },
+  state: String,
+  zip: String,
+  country: {
+    type: String,
+    
+  },
   profilePhoto: {
     type: String,
     default:
@@ -12,15 +32,18 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    
+  
   },
   password: {
     type: String,
-    required: true,
+    
   },
   gender: {
     type: String,
+  },
+  isRegisteredDrivingTest:{
+type:Boolean,
   },
   token: {
     type: String,

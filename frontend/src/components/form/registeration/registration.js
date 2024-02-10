@@ -5,9 +5,36 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { drivingTestRegistration } from '../../../redux/actions/userAction';
+import { useEffect } from 'react'
+import { Alert } from '@mui/material';
 export default function RegistrationForm({validateFormData}) {
+  const dispatch = useDispatch();
+  const [Error, setError] = React.useState('');
+  const [message, setMessage] = React.useState('');
+  const  userdata=localStorage.getItem('userData');
+  const loginuser=JSON.parse(userdata);
+  const userId=loginuser._id;
+  const storeData = useSelector((store) => store.auth);
+  const userData = useSelector((store) => store.user);
+  const {  user } = storeData;
+  const { loading, appErr, serverErr,  } = userData;
+  console.log(user)
+
+useEffect(() => {
+  if (loginuser && loginuser.firstName && loginuser.lastName && loginuser.address1 && loginuser.address2 && loginuser.city && loginuser.state && loginuser.zip && loginuser.country) {
+    if (loginuser.isRegisteredDrivingTest) {
+      setFormData({ ...formData, ...loginuser });
+    } else {
+      setFormData({ ...formData });
+    }
+  }
+}, [])
+
+
   const [formData, setFormData] = React.useState({
+    id:userId,
     firstName: '',
     lastName: '',
     address1: '',
@@ -22,12 +49,28 @@ export default function RegistrationForm({validateFormData}) {
   const handleChange = (event) => {
     const { name, value, checked, type } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
-    setFormData({ ...formData, [name]: newValue });
+    setFormData({ ...formData, [name]: newValue ,id:userId});
+    
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit =async (event) => {
     event.preventDefault();
-    console.log('Form submitted:', formData);
+  if(formData){
+    await dispatch(drivingTestRegistration(formData))
+
+    if(!(appErr && serverErr)){
+      validateFormData()
+    }
+ else{
+  if(appErr ||serverErr){
+    setMessage(appErr ||serverErr)
+  }
+ setMessage("Something went wrong try again")
+  setError(true)
+ }
+  }
+  return
+    // console.log('Form submitted:', formData);
     // Add your form submission logic here
   };
 
@@ -36,6 +79,12 @@ export default function RegistrationForm({validateFormData}) {
       <Typography variant="h6" gutterBottom>
         Personal Details
       </Typography>
+      {Error && message &&<Alert severity="warning" onClose={() => {setError(false) }}>
+      
+      {(appErr||serverErr) && <Typography variant="h6" gutterBottom>
+        {appErr ||serverErr}
+      </Typography>}
+      </Alert>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
@@ -148,7 +197,7 @@ export default function RegistrationForm({validateFormData}) {
           </Grid>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">
-              Submit
+            Submit
             </Button>
           </Grid>
         </Grid>

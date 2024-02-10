@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { styled } from '@mui/material/styles';
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
@@ -20,53 +20,79 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-export default function PaymentForm() {
+
+export default function PaymentForm({ validateDocumentData }) {
+  const [userPhoto, setUserPhoto] = React.useState(null);
+  const [adharCard, setAdharCard] = React.useState(null);
+
+  const handleUserPhotoChange = (event) => {
+    const file = event.target.files[0];
+   
+    // Check if a file is selected
+    if (file) {
+      // Convert the selected file to a data URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    // You can perform additional actions here, such as validation or updating the parent component state
+  };
+
+  const handleAdharCardChange = (event) => {
+    const file = event.target.files[0];
+   
+    // Check if a file is selected
+    if (file) {
+      // Convert the selected file to a data URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAdharCard(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    // You can perform additional actions here, such as validation or updating the parent component state
+  };
+
+  
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Upload Documents
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={3}  sx={{ 
+    display: { xs: 'flex', alignItems: "center", padding: 10 },
+    justifyContent: "space-around" // Adjusted to justifyContent
+  }}>
         <Grid item xs={12} md={6}>
-          {/* <Label>Upload user photo</Label> */}
-          <label>Upload user photo</label>
+          <label htmlFor="user-photo-upload">Upload user photo</label>
           <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-      Upload Photo
-      <VisuallyHiddenInput type="file" />
-    </Button>
+            Upload Photo
+            <VisuallyHiddenInput
+              id="user-photo-upload"
+              type="file"
+              onChange={handleUserPhotoChange}
+            />
+          </Button>
+          {userPhoto && <img src={userPhoto} style={{width:100,height:100,margin:10}}/>
+}
         </Grid>
         <Grid item xs={12} md={6}>
-        <label>Upload Adhar card</label>
+          <label htmlFor="adhar-card-upload">Upload Adhar card</label>
           <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-      Upload Adhar 
-      <VisuallyHiddenInput type="file" />
-    </Button>
+            Upload Adhar
+            <VisuallyHiddenInput
+              id="adhar-card-upload"
+              type="file"
+              onChange={handleAdharCardChange}
+            />
+          </Button>
+          {adharCard &&           <img src={adharCard} style={{width:100,height:100,margin:10,}}/>
+}
         </Grid>
-        <Grid item xs={12} md={6}>
-          <div style={{width:200,height:150,border:"1px solid black"}}
-            
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <div style={{width:200,height:150,border:"1px solid black"}}
-            
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <input
-            accept="image/*"
-            id="contained-button-file"
-            type="file"
-            style={{ display: 'none' }}
-          />
-         
-        </Grid>
+        
       </Grid>
     </React.Fragment>
   );

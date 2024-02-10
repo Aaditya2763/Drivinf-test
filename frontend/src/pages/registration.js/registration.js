@@ -16,8 +16,11 @@ import RegistartaionForm from '../../components/form/registeration/registration'
 import PaymentForm from '../../components/form/registeration/payment';
 import Review from '../../components/form/registeration/review';
 import NavbarBox from '../../components/Navbar/NavbarBox';
+import { useDispatch, useSelector } from 'react-redux';
 
-
+import { useEffect } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
+import { drivingTestRegistration } from '../../redux/actions/userAction';
 
 function Copyright() {
   return (
@@ -38,36 +41,81 @@ const steps = ['Personal Details', 'Upload Documents', 'Documents Confirmation']
 
 export default function Registartion() {
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const [profileData, setprofileData] = React.useState(false)
+  const [adharData, setadharData] = React.useState(false)
+  const [profileImg, setprofileImg] = React.useState(false)
+  const [adharImg, setadharImg] = React.useState(false)
   const [formdata, setFormData] = React.useState(false);
+  const dispatch = useDispatch();
 
   const validateFormData=()=>{
 setFormData(true);
+toast.success("Personal details submited successfully")
 setActiveStep(activeStep+1)
+
+
   }
+
+  useEffect(() => {
+   
+  }, [formdata])
+  
+  const validateDocumentData=()=>{
+    // setdocumentData(true);
+    if(formdata && adharData &&adharData)
+    // toast.success("Documents details submited successfully")
+    setActiveStep(activeStep+1)
+      }
+
+
   function getStepContent(step) {
     switch (step) {
       case 0:
         return <RegistartaionForm validateFormData={validateFormData}  />;
       case 1:
-        return <PaymentForm />;
+        return <PaymentForm profileDataData={profieDataHandler} adharDataHandler={adharDataHandler} />;
       case 2:
         return <Review />;
       default:
         throw new Error('Unknown step');
     }
   }
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
+  const handleNext = async(event) => {
+    event.preventDefault();
+    if(activeStep==0 && formdata){
+      
+    }
+    return
   };
 
+  const profieDataHandler=(profileimg)=>{
+    if(profileimg){
+      setprofileImg(profileImg)
+      setprofileData(true);
+    }
+    return;
+    
+  }
+  const adharDataHandler=(adharImg)=>{
+    if(adharImg){
+      setadharImg(adharImg)
+      setadharData(true);
+    }
+    return;
+    
+  }
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
+  useEffect(() => {
+   
+  }, [formdata])
+  
   return (
     <React.Fragment>
       <CssBaseline />
+      <Toaster position='top-right'/>
     <NavbarBox/>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -105,13 +153,13 @@ setActiveStep(activeStep+1)
                   </Button>
                 )}
 
-                <Button
+               {formdata ?  <Button
                   variant="contained"
                   onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                {formdata &&  (activeStep === steps.length - 1) ? 'Place order' : 'Next'}
-                </Button>
+                { (activeStep === steps.length - 1) ? 'Confirm' : 'Next'}
+                </Button>:""}
               </Box>
             </React.Fragment>
           )}
