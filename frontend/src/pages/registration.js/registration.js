@@ -110,7 +110,7 @@ setActiveStep(activeStep+1)
                   onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                 { activeStep && (activeStep === steps.length - 1) ? 'Place order' : 'Next'}
+                {formdata &&  (activeStep === steps.length - 1) ? 'Place order' : 'Next'}
                 </Button>
               </Box>
             </React.Fragment>
