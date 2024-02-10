@@ -34,22 +34,29 @@ function Copyright() {
 
 const steps = ['Personal Details', 'Upload Documents', 'Documents Confirmation'];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <RegistartaionForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+
 
 export default function Registartion() {
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const [formdata, setFormData] = React.useState(false);
+
+  const validateFormData=()=>{
+setFormData(true);
+setActiveStep(activeStep+1)
+  }
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <RegistartaionForm validateFormData={validateFormData}  />;
+      case 1:
+        return <PaymentForm />;
+      case 2:
+        return <Review />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -103,7 +110,7 @@ export default function Registartion() {
                   onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                  {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                 { activeStep && (activeStep === steps.length - 1) ? 'Place order' : 'Next'}
                 </Button>
               </Box>
             </React.Fragment>

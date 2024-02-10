@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== "production") {
   app.use(express.urlencoded({ extended: true }));
   
   // CORS configuration
-  const allowedOrigins = ["http://localhost:3000","https://code-editor-ivory.vercel.app"];
+  const allowedOrigins = ["http://localhost:3000","https://driving-test-seven.vercel.app/"];
   app.use(cors({ origin: allowedOrigins }));
   
   // Session setup
