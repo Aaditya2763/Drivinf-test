@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 
-export default function RegistrationForm() {
+export default function RegistrationForm({validateFormData}) {
   const [formData, setFormData] = React.useState({
     firstName: '',
     lastName: '',
