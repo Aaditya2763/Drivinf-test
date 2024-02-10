@@ -16,7 +16,10 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import NavbarBox from '../../components/Navbar/NavbarBox';
 import { Link } from 'react-router-dom';
-
+import { loginUserAction } from '../../redux/actions/authActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import toast,{ Toaster } from 'react-hot-toast';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -53,7 +56,7 @@ const tiers = [
       'Help center access',
       'Priority email support',
     ],
-    buttonText: 'start',
+    buttonText: 'test',
     buttonVariant: 'contained',
   },
   {
@@ -98,12 +101,25 @@ const footers = [
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Home() {
+export default function Home({loginuser}) {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const storeData = useSelector((store) => store.auth);
+  const { loading, appErr, serverErr, } = storeData;
+ 
+  const  user=localStorage.getItem('userData');
+
+const userHandler=()=>{
+  toast.error("You need to login first!")
+}
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
+      <Toaster position='top-right'/>
       <CssBaseline />
-   <NavbarBox/>
+   <NavbarBox loginUser={loginuser}/>
       {/* Hero unit */}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
         <Typography
@@ -183,9 +199,11 @@ export default function Home() {
                     {tier.buttonText}
                   </Button></Link> */}
 
-                  <Link to={`/${tier.buttonText}`} variant="body2" style={{display:"flex",alignSelf:"center",textDecoration:"none",margin:"0px auto"}} >
+                  {user?<Link to={`/${tier.buttonText}`} variant="body2" style={{display:"flex",alignSelf:"center",textDecoration:"none",margin:"0px auto"}} >
                    <Button style={{margin:"0px auto",border:"1px solid grey "}} fullWidth variant={tier.buttonVariant}> {tier.buttonText}</Button>
-                  </Link>
+                  </Link>:
+                   <Button style={{margin:"0px auto",border:"1px solid grey "}} fullWidth variant={tier.buttonVariant} onClick={userHandler}> {tier.buttonText}</Button>
+                 }
                 </CardActions>
               </Card>
             </Grid>

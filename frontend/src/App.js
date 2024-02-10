@@ -15,9 +15,17 @@ import ScoreBoard from './pages/Scoreboard/ScoreBoard';
 import Profile from './pages/profile/Profile';
 import ForgetPassword from './components/auth/forgotPassword';
 import TestPage from './pages/test/test';
+import { useEffect } from 'react';
 
 
-function App() {
+function App() { 
+  const user = localStorage.getItem('userData');
+ useEffect(() => {
+  
+  
+ }, [user])
+  
+//  console.log(user)
   return (
     <div>
    <Provider store={store}>
@@ -25,17 +33,18 @@ function App() {
         <div className="d-flex flex-column" style={{ overflow: "hidden" }}>
 
           <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Signin/>} />
+          <Route exact path="/" element={<Home loginuser={user}/>} />
+          <Route exact path="/login" element={<Signin />} />
             <Route exact path="/signup" element={< Signup/>} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/test" element={<TestPage />} />
+            <Route exact path="/dashboard" element={<Dashboard loginuser={user}/>} />
+            <Route exact path="/test" element={<TestPage/>} />
+            <Route exact path="/learn" element={<Home loginuser={user}/>} />
 
-            <Route exact path="/profile" element={<Profile />} />
-            <Route exact path="/change-password" element={<ForgetPassword />} />
-            <Route exact path="/account" element={<ForgetPassword />} />
-            <Route exact path="/register" element={<Registartion />} />
-            <Route exact path="/scoreboard" element={<ScoreBoard />} />
+            <Route exact path="/profile" element={<Profile loginuser={user} />} />
+            <Route exact path="/change-password" element={<ForgetPassword loginuser={user} />} />
+            <Route exact path="/account" element={<ForgetPassword loginuser={user} />} />
+            <Route exact path="/register" element={<Registartion loginuser={user} />} />
+            <Route exact path="/scoreboard" element={<ScoreBoard loginuser={user} />} />
           </Routes>
         </div>
       </BrowserRouter>

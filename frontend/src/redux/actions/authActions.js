@@ -39,6 +39,7 @@ export const loginUserAction = createAsyncThunk(
     try {
       const res = await axios.post(`${baseUrl}/login`, userData, config);
       // Save response to local storage
+      localStorage.setItem('userData', JSON.stringify(res.data));
       return res.data;
     } catch (error) {
      
@@ -57,7 +58,7 @@ export const logoutAction = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       // Additional logic or API calls can be added here if needed
-      localStorage.removeItem("userInfo");
+      localStorage.removeItem("userData");
     } catch (error) {
       console.error(error);
       if (!error?.response) {

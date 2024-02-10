@@ -55,11 +55,13 @@ const featuredPosts = [
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+export default function Dashboard({loginuser}) {
+
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <NavbarBox/>
+      <NavbarBox loginuser={loginuser}/>
       <Container maxWidth="lg">
         
         <main>

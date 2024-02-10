@@ -7,18 +7,109 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Box, Container, Grid, Paper, Stack } from '@mui/material';
 import TestNavbar from '../../components/Navbar/testNavbar';
 
-const questions = [
+const questions=[
   {
-    question: 'What is 2 + 2?',
-    options: ['3', '4', '5', '6'],
-    correctAnswer: '4'
+    "question": "What does a yellow traffic light indicate?",
+    "options": [
+      "Stop",
+      "Proceed with caution",
+      "Speed up",
+      "Turn left"
+    ],
+    "correct_answer": "Proceed with caution"
   },
   {
-    question: 'What is the capital of France?',
-    options: ['London', 'Paris', 'Berlin', 'Rome'],
-    correctAnswer: 'Paris'
+    "question": "When should you use your horn while driving?",
+    "options": [
+      "To alert others of your presence",
+      "To signal a greeting to another driver",
+      "To express frustration or annoyance",
+      "To communicate your impatience"
+    ],
+    "correct_answer": "To alert others of your presence"
   },
-];
+  {
+    "question": "What is the maximum speed limit in a residential area?",
+    "options": [
+      "20 mph",
+      "25 mph",
+      "30 mph",
+      "35 mph"
+    ],
+    "correct_answer": "25 mph"
+  },
+  {
+    "question": "What does a red octagonal traffic sign indicate?",
+    "options": [
+      "Yield",
+      "Stop",
+      "Merge",
+      "Speed limit"
+    ],
+    "correct_answer": "Stop"
+  },
+  {
+    "question": "What should you do if you encounter a school bus with flashing red lights?",
+    "options": [
+      "Pass the bus quickly",
+      "Proceed with caution",
+      "Stop and wait until the lights stop flashing",
+      "Ignore the lights and continue driving"
+    ],
+    "correct_answer": "Stop and wait until the lights stop flashing"
+  },
+  {
+    "question": "When driving in foggy conditions, what lights should you use?",
+    "options": [
+      "High beams",
+      "Fog lights",
+      "Parking lights",
+      "Hazard lights"
+    ],
+    "correct_answer": "Fog lights"
+  },
+  {
+    "question": "What should you do if your vehicle starts to skid?",
+    "options": [
+      "Steer in the direction of the skid",
+      "Apply the brakes hard",
+      "Turn the steering wheel quickly",
+      "Accelerate to regain control"
+    ],
+    "correct_answer": "Steer in the direction of the skid"
+  },
+  {
+    "question": "What does a broken white line on the road indicate?",
+    "options": [
+      "No passing allowed",
+      "Passing allowed",
+      "Merge left",
+      "Lane ends"
+    ],
+    "correct_answer": "Passing allowed"
+  },
+  {
+    "question": "What does a green traffic light indicate?",
+    "options": [
+      "Stop",
+      "Proceed with caution",
+      "Speed up",
+      "Go"
+    ],
+    "correct_answer": "Go"
+  },
+  {
+    "question": "When should you use your hazard lights?",
+    "options": [
+      "When parking illegally",
+      "When driving in heavy rain",
+      "When pulling over to answer a phone call",
+      "When traveling at night"
+    ],
+    "correct_answer": "When pulling over to answer a phone call"
+  }
+]
+
 
 const TestPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
