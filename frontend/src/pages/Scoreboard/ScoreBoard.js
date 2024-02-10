@@ -60,7 +60,7 @@ export default function ScoreBoard() {
     <React.Fragment>
       <NavbarBox/>
       <Container sx={{mt:3}} >
-      <Title>Recent Orders</Title>
+      <Title>Score Board</Title>
       <Table size="small">
         <TableHead>
           <TableRow>

@@ -59,7 +59,7 @@ export default function Orders() {
   return (
     <React.Fragment>
       <Container sx={{mt:2,mb:3}}>
-      <Title>Recent Orders</Title>
+      <Title>Score Board</Title>
       <Table size="small">
         <TableHead>
           <TableRow>

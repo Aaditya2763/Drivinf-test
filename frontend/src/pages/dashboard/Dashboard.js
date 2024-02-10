@@ -22,9 +22,9 @@ import ScoreTable from '../../components/Scoretable/ScoreTable';
 // ];
 
 const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
+  title: 'Pass Your Driving Test with Confidence!',
   description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+    "Prepare for Success on the Road Ahead, Master the Road: Your Key to Freedom Awaits!",
   image: 'https://i.pinimg.com/originals/f2/dd/56/f2dd5622406d7b9bcd7000b25411aa96.jpg',
   imageText: 'main image description',
   linkText: 'Continue reading…',

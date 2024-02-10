@@ -20,6 +20,7 @@ import { loginUserAction } from '../../redux/actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast,{ Toaster } from 'react-hot-toast';
+import SpringModal from '../../components/modal/modal';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -38,10 +39,7 @@ const tiers = [
     title: 'Register',
     price: '0',
     description: [
-      '10 users included',
-      '2 GB of storage',
-      'Help center access',
-      'Email support',
+      'Gear Up for Your Registration Driving Test Success!'
     ],
     buttonText: 'register',
     buttonVariant: 'outlined',
@@ -51,10 +49,7 @@ const tiers = [
     subheader: 'Time 10 min',
     price: '0',
     description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
+      'Ready, Set, Drive: Begin Your Test Journey Now!',
     ],
     buttonText: 'test',
     buttonVariant: 'contained',
@@ -63,10 +58,7 @@ const tiers = [
     title: 'Learn',
     price: '50',
     description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
+      ' Start Your Journey to Driving Mastery Today!',
     ],
     buttonText: 'learn',
     buttonVariant: 'outlined',
@@ -98,6 +90,14 @@ const footers = [
   },
 ];
 
+const modalData={
+  title:" Are you ready for the test ! ",
+  message:"You  have to complete the test with in 10 minutes",
+  time:"10",
+  link:"/test",
+  buttonTitle:"Start Test",
+  confirmButton:"Start Test"
+}
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -129,12 +129,14 @@ const userHandler=()=>{
           color="text.primary"
           gutterBottom
         >
-          Pricing
+          Driving school 
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Quickly build an effective pricing table for your potential customers with
-          this layout. It&apos;s built with default MUI components with little
-          customization.
+          
+Driving is a privilege that comes with great responsibility.
+Your journey starts here, at our driving school.
+Learn to navigate the road with confidence and skill.
+Empowering drivers for a safer tomorrow.
         </Typography>
       </Container>
       {/* End hero unit */}
@@ -194,17 +196,23 @@ const userHandler=()=>{
                     ))}
                   </ul>
                 </CardContent>
+              
                 <CardActions>
-                  {/* <Link to={`/${tier.buttonText}`} style={{display:'flex',alignSelf:"center",textDecoration:"none"}}><Button  fullWidth variant={tier.buttonVariant}>
-                    {tier.buttonText}
-                  </Button></Link> */}
+  {user && tier.buttonText === "test" ? (
+    <Link to="" variant="body2" style={{ display: "flex", alignSelf: "center", textDecoration: "none", margin: "0px auto" }}>
+      <Button style={{ margin: "0px auto", border: "1px solid grey", alignSelf: "center" }} fullWidth variant={tier.buttonVariant}><SpringModal modal={modalData} /></Button>
+    </Link>
+  ) : null}
+  {user ? (
+    <Link to={`/${tier.buttonText}`} variant="body2" style={{ display: "flex", alignSelf: "center", textDecoration: "none", margin: "0px auto" }}>
+      {tier.buttonText === "test" ? null : <Button style={{ margin: "0px auto", border: "1px solid grey", alignSelf: "center" }} fullWidth variant={tier.buttonVariant}>{tier.buttonText}</Button>}
+    </Link>
+  ) : (
+    <Button style={{ margin: "0px auto", border: "1px solid grey", alignSelf: "center",color:"" }} fullWidth variant={tier.buttonVariant} onClick={userHandler}>   {tier.buttonText === "test" ? "Start Test" : tier.buttonText}</Button>
+  )}
+</CardActions>
 
-                  {user?<Link to={`/${tier.buttonText}`} variant="body2" style={{display:"flex",alignSelf:"center",textDecoration:"none",margin:"0px auto"}} >
-                   <Button style={{margin:"0px auto",border:"1px solid grey "}} fullWidth variant={tier.buttonVariant}> {tier.buttonText}</Button>
-                  </Link>:
-                   <Button style={{margin:"0px auto",border:"1px solid grey "}} fullWidth variant={tier.buttonVariant} onClick={userHandler}> {tier.buttonText}</Button>
-                 }
-                </CardActions>
+
               </Card>
             </Grid>
           ))}
