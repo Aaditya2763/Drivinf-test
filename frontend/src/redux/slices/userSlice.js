@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUserAction, logoutAction, registerUserAction } from "../actions/authActions";
-import { drivingTestRegistration } from "../actions/userAction";
+import { drivingTestRegistration,updateUserProfilePhotoAction } from "../actions/userAction";
 
 
 
@@ -10,9 +10,10 @@ const initialState={
   loading: false,
   appErr: null,
   serverErr: null,
+  updatedProfileImage:""
 };
 const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
  
   reducers: {
@@ -42,19 +43,19 @@ const userSlice = createSlice({
     });
 
     // login
-    builder.addCase(loginUserAction.pending, (state, action) => {
+    builder.addCase(updateUserProfilePhotoAction.pending, (state, action) => {
       state.loading = true;
       state.appErr = null;
       state.serverErr = null;
     });
-    builder.addCase(loginUserAction.fulfilled, (state, action) => {
+    builder.addCase(updateUserProfilePhotoAction.fulfilled, (state, action) => {
       state.registered = "";
-      state.user = action?.payload;
+      state.updatedProfileImage= action?.payload;
       state.loading = false;
       state.appErr = null;
       state.serverErr = null;
     });
-    builder.addCase(loginUserAction.rejected, (state, action) => {
+    builder.addCase(updateUserProfilePhotoAction.rejected, (state, action) => {
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;

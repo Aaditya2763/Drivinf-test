@@ -6,8 +6,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { styled } from '@mui/material/styles';
 import { Button, Stack } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { updateUserProfilePhotoAction } from '../../../redux/actions/userAction';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -24,20 +26,25 @@ const VisuallyHiddenInput = styled('input')({
 export default function PaymentForm({ validateDocumentData }) {
   const [userPhoto, setUserPhoto] = React.useState(null);
   const [adharCard, setAdharCard] = React.useState(null);
+  const dispatch = useDispatch();
+  const storeData = useSelector((store) => store.auth);
+  const { loading, appErr, serverErr } = storeData;
+  const  user=localStorage.getItem('userData');
+  const userdata=JSON.parse(user)
+  const userId=userdata._id;
 
   const handleUserPhotoChange = (event) => {
     const file = event.target.files[0];
    
-    // Check if a file is selected
     if (file) {
-      // Convert the selected file to a data URL
       const reader = new FileReader();
       reader.onloadend = () => {
         setUserPhoto(reader.result);
+        //  always check here for image:file not usserPhoto
+        dispatch(updateUserProfilePhotoAction({ id:userId , image: file }));
       };
       reader.readAsDataURL(file);
     }
-    // You can perform additional actions here, such as validation or updating the parent component state
   };
 
   const handleAdharCardChange = (event) => {

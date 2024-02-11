@@ -27,3 +27,36 @@ export const drivingTestRegistration = createAsyncThunk(
       }
     }
   );
+
+//update userProfile image Action
+  export const updateUserProfilePhotoAction = createAsyncThunk(
+    "user/updateprofileImg",
+    async ({id , image}, { rejectWithValue }) => {
+      console.log(id,image)
+      try {
+        const formData = new FormData();
+        formData.append("id", id); // Append key-value pair for id
+        formData.append("image",image); // Append key-value pair for image
+  
+        const res = await axios.put(`${baseUrl}/update-profile-photo`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+  
+        // Update local storage
+        const existingData = localStorage.getItem('userData');
+        const existingObject = existingData ? JSON.parse(existingData) : {};
+        existingObject.profilePhoto = res.data;
+        localStorage.setItem('userData', JSON.stringify(existingObject));
+  
+        return res.data;
+      } catch (error) {
+        if (!error?.response) {
+          throw error;
+        }
+        return rejectWithValue(error?.response?.data);
+      }
+    }
+  );
+  
