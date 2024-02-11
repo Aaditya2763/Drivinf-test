@@ -1,9 +1,8 @@
 const expressAsyncHandler = require("express-async-handler");
 const User = require("../../modal/user/auth");
 const generateToken = require("../../config/tokenConfig");
-
-
-
+const cloudnaryUploadImg = require("../../utils/cloudnary");
+const fs=require('fs');
 //register controller
 const drivingtestRegistrationController = expressAsyncHandler(async (req, res) => {
   const { id } = req.body;
@@ -40,7 +39,46 @@ const drivingtestRegistrationController = expressAsyncHandler(async (req, res) =
   }
 });
 
+//userProfilrphoto upload
+const updateUserProfileAction = expressAsyncHandler(async (req, res) => {
+const {id}=req.body;
+ const localPath = `public/images/profile/${req.file.filename}`;
+
+    // Upload the image to Cloudinary
+    const imgUploaded = await cloudnaryUploadImg(localPath);
+
+    if (!imgUploaded || !imgUploaded.url) {
+      return res.status(500).json({ message: 'Image upload to Cloudinary failed.' });
+    }
+  try {
+    // Check if user with the provided ID exists
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: { profilePhoto: imgUploaded.url } },
+      { new: true } // Return the updated user object
+    );
+    //removing imgae file  from public folder
+    fs.unlinkSync(localPath)
+    // Update user's profile photo
+    // Assuming photo.buffer contains the binary data of the uploaded image
+    
+    await updatedUser.save();
+    // Save the updated user
+   
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Send a success response with the updated user object
+    res.status(200).json({ user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
 
   module.exports = {
-    drivingtestRegistrationController
+    drivingtestRegistrationController,
+    updateUserProfileAction
   };

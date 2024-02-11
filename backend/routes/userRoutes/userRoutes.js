@@ -1,11 +1,12 @@
 const express=require('express');
-const { drivingtestRegistrationController } = require('../../controllers/authcontroller/userController');
-
+const { drivingtestRegistrationController, updateUserProfileAction } = require('../../controllers/authcontroller/userController');
+const { userProfileUpload, profilePhotoResize } = require('../../middleware/upload/upload');
 const userRoutes=express.Router();
 
 // user Routes//
 userRoutes.post('/test-registration',drivingtestRegistrationController);
-// userRoutes.post('/login',userLoginController);
-// userRoutes.post('/logout',logoutController)
+userRoutes.put('/update-profile-photo',userProfileUpload.single('image'),profilePhotoResize,updateUserProfileAction);
+// userRoutes.post('/logout',logoutController) ;
+
 
 module.exports=userRoutes;
